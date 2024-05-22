@@ -14,3 +14,8 @@ void SLEEP_start(void){
     /*Assembly instruction to put MCU into sleep*/
     asm("SLEEP");
 }
+
+void WDT_reset(void){
+    /*Assembly instruction to reset watchdog*/
+    asm("CLRWDT");
+}

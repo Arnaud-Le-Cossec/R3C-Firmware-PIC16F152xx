@@ -5,8 +5,6 @@
         <group>
             <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/lora_driver.h</file>
             <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/watchdog_driver.h</file>
-            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/remote_mode_driver.h</file>
-            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/i2c_driver_homebrew.h</file>
             <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/analog_driver.h</file>
             <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/led_driver.h</file>
             <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/i2c_driver.h</file>

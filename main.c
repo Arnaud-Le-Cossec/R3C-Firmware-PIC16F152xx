@@ -122,6 +122,8 @@ void main(void) {
     INTCONbits.PEIE = 1;
     INTCONbits.GIE = 1;
     
+    /*Setup watchdog*/
+    WDT_setup();
     
     TRISA &= !(1<<LED_PIN);		// Set outputs
 
@@ -134,6 +136,7 @@ void main(void) {
         
         while(1){
             PORTA ^= (1<<LED_PIN);		// Set LED to 1
+            WDT_reset();
             __delay_ms(500);
         };
     }
@@ -156,9 +159,6 @@ void main(void) {
     LoRa_setup();
     //PORTA &= !(1<<LED_PIN);		// Set LED to 0
     
-    
-    /*Setup watchdog*/
-    WDT_setup();
     
     /*Declare sleep counter*/
     uint8_t sleep_counter = 0;

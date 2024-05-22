@@ -19,7 +19,7 @@ uint8_t LoRa_setup(void){
     // Check connection
     uint8_t attempts = MAX_JOIN_ATTEMPTS;
     while((!AT_command_check("AT+JOIN", "+JOIN: Joined already", 21))){
-        if(attempts = 0){
+        if(attempts == 0){
             return 0;
         }
         __delay_ms(JOIN_RETRY_DELAY_MS);
