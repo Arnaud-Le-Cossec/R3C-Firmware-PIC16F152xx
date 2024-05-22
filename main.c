@@ -1,6 +1,6 @@
 /*
  * File:   main.c
- * Author: Nono
+ * Author: Arnaud LE COSSEC
  *
  * Created on 17 November 2023, 17:23
  */
@@ -46,7 +46,7 @@
 #include <xc.h>
 #include <pic16f15214.h>
 
-#define FIRMWARE_VER 1
+#define FIRMWARE_VER 2
 
 #define _XTAL_FREQ 1000000  // 1Mhz configuration de la carte
 
@@ -63,10 +63,21 @@ uint8_t RX_index = 0;
 
 #define LED_PIN 0
 
-#define SLEEP_COUNTER_THRESHOLD_DEFAULT 1//14
+/*DEFINE THE DATA TRANSMISSION INTERVAL
+ * 1. Go the file 'watchdog_driver.h' and select the desired watchdog period.
+ * 2. Set SLEEP_COUNTER_THRESHOLD_DEFAULT to the desired multiple of the watchdog period
+ * 
+ * The resulting transmission interval will be t = SLEEP_COUNTER_THRESHOLD_DEFAULT*(watchdog period)
+ * Notes :
+ *      This value should not be less than 1 minute
+ *      The maximum LoRa join time should not exceed one watchdog period (see lora_driver.h)
+ */
+#define SLEEP_COUNTER_THRESHOLD_DEFAULT 1//14 for a full hour
 
 
-
+/****************************************
+ * INTERRUPT HANDLER
+ ***************************************/
 void __interrupt() ISR(void){
 
     if(PIR1bits.RC1IF){ // handle RX pin interrupts
@@ -103,7 +114,9 @@ void __interrupt() ISR(void){
 
 } // end ISRs*/
 
-
+/****************************************
+ * MAIN
+ ***************************************/
 void main(void) {
     
     INTCONbits.PEIE = 1;
@@ -160,14 +173,17 @@ void main(void) {
     while(1){
            
         /*Start sleep, will be awaken by watchdog*/
-        AT_command("AT+LOWPOWER");
-        SLEEP_start();
+        AT_command("AT+LOWPOWER"); // sleep LoRa modem
+        SLEEP_start(); // sleep ourselves
         
+        /*SLEEPING ZzZzz*/
+        
+        /*The following code is executed after wakeup*/
         /*increment sleep counter*/
         sleep_counter++;
         
         if(sleep_counter >= SLEEP_COUNTER_THRESHOLD_DEFAULT){
-            /*Sleep*/
+            
             sleep_counter = 0;
             
             AT_command("Wake up !!");
@@ -189,11 +205,5 @@ void main(void) {
             LoRa_send_data(rawtemp, rawhum, battery);
             
         }
-        
-        //I2C_MCP23008_read();
-        
-        //PORTA ^= (1<<LED_PIN);
-        //__delay_ms(10000);
     }
-    return;
 }

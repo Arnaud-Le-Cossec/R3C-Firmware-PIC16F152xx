@@ -1,24 +1,32 @@
 #define JOIN_RETRY_DELAY_MS 20000 // 20seconds
+#define MAX_JOIN_ATTEMPTS 3// minimum 2 attempts : the fisrt to trigger the join request, the second to check join status
+/*Note
+ *      JOIN_RETRY_DELAY_MS * MAX_JOIN_ATTEMPTS should not exceed one watchdog period (see watchdog_driver.h)
+ */
 
-void LoRa_setup(void);
+uint8_t LoRa_setup(void);
 uint8_t AT_command_check(const char * at_command, const char * expected_response, uint8_t response_size);
 void AT_command(const char * at_command);
 
 
-void LoRa_setup(void){
+uint8_t LoRa_setup(void){
     /*Wake E5 mini*/
     AT_command("Wake up !!");
     /*Check E5 mini communication*/
     if(!AT_command_check("AT", "+AT: OK", 7)){
         EUSART_print("RX/TX Fail");
     }
-    /*Set the right mode*/
-    //AT_command("AT+MODE=LWOTAA");
     // Check connection
-    while(!AT_command_check("AT+JOIN", "+JOIN: Joined already", 21)){
+    uint8_t attempts = MAX_JOIN_ATTEMPTS;
+    while((!AT_command_check("AT+JOIN", "+JOIN: Joined already", 21))){
+        if(attempts = 0){
+            return 0;
+        }
         __delay_ms(JOIN_RETRY_DELAY_MS);
+        attempts --;
     };
     EUSART_print("Connected !");
+    return 1;
 }
 
 void LoRa_send_data(uint16_t temperature, uint16_t humidity, uint8_t battery){
