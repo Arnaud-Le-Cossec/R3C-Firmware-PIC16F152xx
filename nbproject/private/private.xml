@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/lora_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/watchdog_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/remote_mode_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/i2c_driver_homebrew.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/analog_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/led_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/i2c_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/eusart_driver.h</file>
+            <file>file:/C:/Users/Nono/MPLABXProjects/R3C_PIC16F152xx.X/main.c</file>
+        </group>
+    </open-files>
+</project-private>
