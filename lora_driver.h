@@ -1,5 +1,5 @@
 #define JOIN_RETRY_DELAY_MS 20000 // 20seconds
-#define MAX_JOIN_ATTEMPTS 3// minimum 2 attempts : the fisrt to trigger the join request, the second to check join status
+#define MAX_JOIN_ATTEMPTS 2// minimum 2 attempts : the fisrt to trigger the join request, the second to check join status
 /*Note
  *      JOIN_RETRY_DELAY_MS * MAX_JOIN_ATTEMPTS should not exceed one watchdog period (see watchdog_driver.h)
  */

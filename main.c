@@ -72,7 +72,7 @@ uint8_t RX_index = 0;
  *      This value should not be less than 1 minute
  *      The maximum LoRa join time should not exceed one watchdog period (see lora_driver.h)
  */
-#define SLEEP_COUNTER_THRESHOLD_DEFAULT 1//14 for a full hour
+#define SLEEP_COUNTER_THRESHOLD_DEFAULT 14//14 for a full hour
 
 
 /****************************************
@@ -171,16 +171,8 @@ void main(void) {
     uint8_t battery;
     
     while(1){
-           
-        /*Start sleep, will be awaken by watchdog*/
-        AT_command("AT+LOWPOWER"); // sleep LoRa modem
-        SLEEP_start(); // sleep ourselves
-        
-        /*SLEEPING ZzZzz*/
-        
-        /*The following code is executed after wakeup*/
-        /*increment sleep counter*/
-        sleep_counter++;
+        /*Clear watchdog*/
+        WDT_reset();
         
         if(sleep_counter >= SLEEP_COUNTER_THRESHOLD_DEFAULT){
             
@@ -190,9 +182,11 @@ void main(void) {
             /*Test Gateway connection*/
             if(!AT_command_check("AT+JOIN", "+JOIN: Joined already", 21)){
                 /*Test fail, reconnect to LoRa*/
-                PORTA |= (1<<LED_PIN);		// Set LED to 1
-                LoRa_setup();
-                PORTA &= !(1<<LED_PIN);		// Set LED to 0
+                //PORTA |= (1<<LED_PIN);		// Set LED to 1
+                if(!LoRa_setup()){
+                    goto new_sleep_cycle;
+                }
+                //PORTA &= !(1<<LED_PIN);		// Set LED to 0
             }
             
             /*Measure sensors*/
@@ -205,5 +199,17 @@ void main(void) {
             LoRa_send_data(rawtemp, rawhum, battery);
             
         }
+        
+        new_sleep_cycle:
+        
+        /*Start sleep, will be awaken by watchdog*/
+        AT_command("AT+LOWPOWER"); // sleep LoRa modem
+        SLEEP_start(); // sleep ourselves
+        
+        /*SLEEPING ZzZzz*/
+        
+        /*The following code is executed after wakeup*/
+        /*increment sleep counter*/
+        sleep_counter++;
     }
 }
